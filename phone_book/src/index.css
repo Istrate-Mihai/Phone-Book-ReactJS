@@ -6,3 +6,11 @@ body {
 .anchor {
   text-decoration: none;
 }
+
+.mainImage {
+  max-width: 960px;
+}
+
+img {
+  width: 80%;
+}
