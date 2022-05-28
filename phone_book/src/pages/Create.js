@@ -1,37 +1,51 @@
-import React, { useState } from 'react' 
+import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap' 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import array from './array';
+import agenda from './agenda';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Create() {
+  let history = useNavigate()
   const [phoneBookEntry, setPhoneBookEntry] = useState({
-    id: '',
     name: '',
     tel: ''
   })
-  let history = useNavigate()
+
+  const [warning, setWarning] = useState('')
   
   const handleChange = (e) => {
-    console.log(e.target.value)
-    setPhoneBookEntry()
+    // getting the properties values from the calling input field
+    const {name, value} = e.target 
+    setPhoneBookEntry((prevPhoneBookEntry) => {
+      return {
+        ...prevPhoneBookEntry,
+        [name]: value
+      }
+    })
   }
   
   const handleSubmit = (e) => {
     e.preventDefault()
     // Getting the id of the last entry in phoneBook and increment it for the
     // newly saved entry
-    let new_entry_id = array[array.length - 1].id + 1
-    let new_entry_name = phoneBookEntry.name
-    let new_entry_tel = phoneBookEntry.tel
-    array.push(
+    if (phoneBookEntry.name === '' || 
+        phoneBookEntry.tel  === '' ||
+        isNaN(Number(phoneBookEntry.tel))) {
+      setWarning('Name or phone not valid please try again!')
+      return
+    }
+    // If all the previous entries from the agenda have been deleted
+    // set the new entry as the first one having with id 0 
+    let new_entry_id = agenda.length !== 0 ? 
+                       agenda[agenda.length - 1].id + 1 : 0
+    agenda.push(
       {
         id: new_entry_id,
-        name: new_entry_name,
-        tel: new_entry_tel
+        name: phoneBookEntry.name,
+        tel: phoneBookEntry.tel
       }
     )
-    // Redirecting to Home After Entry was saved
+    // Redirecting to Home After Entry was successfully saved
     history('/')
   }
 
@@ -42,6 +56,8 @@ function Create() {
           <Form.Control
             onChange={e => handleChange(e)} 
             type="text"
+            name="name"
+            value={phoneBookEntry.name}
             placeholder="Enter Name" required
           /> 
         </Form.Group>
@@ -50,22 +66,26 @@ function Create() {
           <Form.Control
             onChange={e => handleChange(e)} 
             type="text"
+            name="tel"
+            value={phoneBookEntry.tel}
             placeholder="Enter Tel" required
           />
         </Form.Group>
 
         <Button 
           onClick={e => handleSubmit(e)}
-          variant="primary" type="submit">
+          variant="primary" type="submit"
+        >
           Submit
         </Button>
 
         {/* Redirecting back to home page */}
-        <Link className="d-grid gap-2" to='/'>
+        <Link className="d-grid gap-2 anchor" to='/'>
           <Button variant="info" size="lg">
             Home
           </Button>
         </Link>
+        <div>{warning}</div>
       </Form>
     </div>
   )

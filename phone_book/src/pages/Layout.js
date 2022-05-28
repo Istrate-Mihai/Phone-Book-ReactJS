@@ -6,14 +6,8 @@ const Layout = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/">Agenda</Link>
+            <Link className="anchor" to="/">Agenda</Link>
           </li>
-          <li>
-            <Link to="/create">Add Number</Link>
-          </li>
-          {/* <li>
-            <Link to="/edit">Edit Number</Link>
-          </li> */}
         </ul>
       </nav>
 
