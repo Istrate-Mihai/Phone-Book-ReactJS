@@ -26,15 +26,15 @@ function Home() {
   }
   
   return (
-    <>
-      <div  style={{margin:'10rem'}}>
+    <div>
+      <div style={{margin:'2rem'}}>
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
               <th>Name</th>
               <th>Tel</th>
-              <th>Edit Contact</th>
-              <th>Delete Contact</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -65,11 +65,11 @@ function Home() {
         </Table>
 
         <Link className="d-grid gap-2 anchor" to='/create'>
-          <Button variant="warning" size="lg">Create</Button>
+          <Button variant="warning" size="lg">Add Contact</Button>
         </Link>
       </div>
       <div className="mainImage"><img src={logo} alt="No Phone Book Image" /></div>
-    </>
+    </div>
   )
 }
 

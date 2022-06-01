@@ -22,7 +22,7 @@ function Edit() {
     setPhoneBookEntry((prevPhoneBookEntry) => {
       return {
         ...prevPhoneBookEntry,
-        [name]: value
+        [name]: value.trim()
       }
     })
   }
@@ -31,10 +31,12 @@ function Edit() {
     e.preventDefault()
     // Getting the id of the last entry in phoneBook and increment it for the
     // newly saved entry
-    if (phoneBookEntry.name === '' || 
-        phoneBookEntry.tel  === '' ||
-        isNaN(Number(phoneBookEntry.tel))) {
-      setWarning('Name or phone not valid please try again!')
+    let regExp = /[a-zA-Z]/g; // pattern for any letters
+    if (phoneBookEntry.name === '' || phoneBookEntry.tel  === '' || regExp.test(phoneBookEntry.tel)) {
+      // if name or tel are empty or if letters are found in tel than set warning
+      setWarning(`Name or phone are not valid, please try again!
+                  Fields can't be empty and telephone can't contain letters!
+                 `)
       return
     }
     // Get the same object element from the agenda array and
@@ -71,13 +73,13 @@ function Edit() {
         <Button
           onClick={e => handleSubmit(e)}
           variant="primary" type="submit" size="lg">
-            Update
+            Update Contact
         </Button>
 
         <Link className="d-grid gap-2 anchor" to='/'>
-          <Button variant="warning" size="lg">Home</Button>
+          <Button variant="warning" size="lg">Back To Agenda</Button>
         </Link>
-        <div>{warning}</div>
+        <div style={{color: 'red', fontWeight: 'bold'}}>{warning}</div>
       </Form>
     </div>
   )

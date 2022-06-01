@@ -19,7 +19,7 @@ function Create() {
     setPhoneBookEntry((prevPhoneBookEntry) => {
       return {
         ...prevPhoneBookEntry,
-        [name]: value
+        [name]: value.trim()
       }
     })
   }
@@ -28,10 +28,12 @@ function Create() {
     e.preventDefault()
     // Getting the id of the last entry in phoneBook and increment it for the
     // newly saved entry
-    if (phoneBookEntry.name === '' || 
-        phoneBookEntry.tel  === '' ||
-        isNaN(Number(phoneBookEntry.tel))) {
-      setWarning('Name or phone not valid please try again!')
+    let regExp = /[a-zA-Z]/g; // pattern for any letters
+    if (phoneBookEntry.name === '' || phoneBookEntry.tel  === '' || regExp.test(phoneBookEntry.tel)) {
+      // if name or tel are empty or if letters are found in tel than set warning
+      setWarning(`Name or phone are not valid, please try again!
+                  Fields can't be empty and telephone can't contain letters!
+                 `)
       return
     }
     // If all the previous entries from the agenda have been deleted
@@ -50,8 +52,8 @@ function Create() {
   }
 
   return (
-    <div >
-      <Form className="d-grid gap-2" style={{margin:'15rem'}}>
+    <div>
+      <Form className="d-grid gap-2" style={{margin:'2rem'}}>
         <Form.Group className="mb-3" controlId="formBasicName">
           <Form.Control
             onChange={e => handleChange(e)} 
@@ -76,16 +78,16 @@ function Create() {
           onClick={e => handleSubmit(e)}
           variant="primary" type="submit"
         >
-          Submit
+          Add Contact
         </Button>
 
         {/* Redirecting back to home page */}
         <Link className="d-grid gap-2 anchor" to='/'>
           <Button variant="info" size="lg">
-            Home
+            Back To Agenda
           </Button>
         </Link>
-        <div>{warning}</div>
+        <div style={{color: 'red', fontWeight: 'bold'}}>{warning}</div>
       </Form>
     </div>
   )
