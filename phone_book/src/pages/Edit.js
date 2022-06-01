@@ -49,7 +49,7 @@ function Edit() {
   
   return (
     <div>
-      <Form className="d-grid gap-2" style={{margin:'15rem'}}>
+      <Form className="d-grid gap-2" style={{margin:'2rem'}}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Control 
             onChange={e => handleChange(e)}  
